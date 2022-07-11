@@ -1,8 +1,10 @@
+import { Fragment } from "react"
+
 export const UserRow = (user) => {
     const blankProfileUrl = 'https://pixabay.com/vectors/blank-profile-picture-mystery-man-973460/'
-    
+
     return (
-        <tr>
+        <Fragment>
             <td>
                 <img src={user.imageUrl || blankProfileUrl}
                     alt="{`${user.firstName}'s Profile picture`}" className="image" />
@@ -41,6 +43,6 @@ export const UserRow = (user) => {
                     </svg>
                 </button>
             </td>
-        </tr>
+        </Fragment>
     );
 }
