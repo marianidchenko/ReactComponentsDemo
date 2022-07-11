@@ -1,6 +1,6 @@
 import { UserRow } from "./UserRow";
 
-export const UserSection = ({users}) => {
+export const UserList = ({users}) => {
     return (
         <div className="table-wrapper">
 

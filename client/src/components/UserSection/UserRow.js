@@ -1,9 +1,18 @@
-export const UserRow = ({firstName, lastName, imageUrl, email, phoneNumber, createdAt}) => {
+export const UserRow = ({
+    firstName,
+    lastName, 
+    imageUrl,
+    email,
+    phoneNumber,
+    createdAt
+}) => {
+    const blankProfileUrl = 'https://pixabay.com/vectors/blank-profile-picture-mystery-man-973460/'
+    
     return (
         <tr>
             <td>
-                <img src={imageUrl}
-                    alt="profile photo" className="image" />
+                <img src={imageUrl || blankProfileUrl}
+                    alt="{`${firstName}'s profile`}" className="image" />
             </td>
             <td>{firstName}</td>
             <td>{lastName}</td>
