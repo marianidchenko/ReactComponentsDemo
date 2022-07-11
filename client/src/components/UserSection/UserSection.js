@@ -1,6 +1,6 @@
 import { UserRow } from "./UserRow";
 
-export const UserSection = (props) => {
+export const UserSection = ({users}) => {
     return (
         <div className="table-wrapper">
 
@@ -63,7 +63,7 @@ export const UserSection = (props) => {
                 </thead>
                 <tbody>
                     {/* Table row component */}
-                    {props.users.map((user) => (
+                    {users.map((user) => (
                         <UserRow key={user._id} {...user}/>
                     ))}
                 </tbody>

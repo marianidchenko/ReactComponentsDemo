@@ -1,15 +1,15 @@
-export const UserRow = (props) => {
+export const UserRow = ({firstName, lastName, imageUrl, email, phoneNumber, createdAt}) => {
     return (
         <tr>
             <td>
-                <img src={props.imageUrl}
+                <img src={imageUrl}
                     alt="profile photo" className="image" />
             </td>
-            <td>{props.firstName}</td>
-            <td>{props.lastName}</td>
-            <td>{props.email}</td>
-            <td>{props.phoneNumber}</td>
-            <td>{props.createdAt}</td>
+            <td>{firstName}</td>
+            <td>{lastName}</td>
+            <td>{email}</td>
+            <td>{phoneNumber}</td>
+            <td>{createdAt}</td>
 
             <td className="actions">
                 <button className="btn edit-btn" title="Edit">
