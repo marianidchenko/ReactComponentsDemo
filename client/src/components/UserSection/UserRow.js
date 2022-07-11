@@ -1,24 +1,17 @@
-export const UserRow = ({
-    firstName,
-    lastName, 
-    imageUrl,
-    email,
-    phoneNumber,
-    createdAt
-}) => {
+export const UserRow = (user) => {
     const blankProfileUrl = 'https://pixabay.com/vectors/blank-profile-picture-mystery-man-973460/'
     
     return (
         <tr>
             <td>
-                <img src={imageUrl || blankProfileUrl}
-                    alt="{`${firstName}'s profile`}" className="image" />
+                <img src={user.imageUrl || blankProfileUrl}
+                    alt="{`${user.firstName}'s Profile picture`}" className="image" />
             </td>
-            <td>{firstName}</td>
-            <td>{lastName}</td>
-            <td>{email}</td>
-            <td>{phoneNumber}</td>
-            <td>{createdAt}</td>
+            <td>{user.firstName}</td>
+            <td>{user.lastName}</td>
+            <td>{user.email}</td>
+            <td>{user.phoneNumber}</td>
+            <td>{user.createdAt}</td>
 
             <td className="actions">
                 <button className="btn edit-btn" title="Edit">
