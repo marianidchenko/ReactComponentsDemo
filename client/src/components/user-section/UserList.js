@@ -7,6 +7,8 @@ import { UserRow } from "./UserRow";
 export const UserList = ({ users }) => {
     const [selectedUser, setSelectedUser] = useState((null));
 
+    const [userAction, setUserAction] = useState((null));
+
     const detailsClickHandler = (id) => {
         userService.getUserById(id)
         .then(user => {
@@ -14,11 +16,15 @@ export const UserList = ({ users }) => {
         })
     };
 
+    const detailsCloseHandler = () => {
+        setSelectedUser(null);
+    }
+
     return (
         <div className="table-wrapper">
 
             {/*  Overlap components   */}
-            {selectedUser && <UserDetails user={selectedUser}/>}
+            {selectedUser && <UserDetails user={selectedUser} onClose={detailsCloseHandler}/>}
 
             <table className="table">
                 <thead>
