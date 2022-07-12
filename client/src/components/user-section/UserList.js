@@ -31,6 +31,35 @@ export const UserList = ({ users }) => {
         });
     }
 
+    const userCreateHandler = (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+        const {
+            firstName,
+            lastName,
+            email,
+            imageUrl,
+            phoneNumber,
+            ...address
+        } = Object.fromEntries(formData);
+
+        const userData = {
+            firstName,
+            lastName,
+            email,
+            imageUrl,
+            phoneNumber,
+            address,
+        };
+
+        userService.create(userData)
+            .then(user => {
+                closeHandler();
+            });
+    }
+
+
     return (
         <Fragment>
             <div className="table-wrapper">
@@ -61,6 +90,7 @@ export const UserList = ({ users }) => {
                 {userAction.action == UserListConstants.Add &&
                     <UserCreate
                         onClose={closeHandler}
+                        onUserCreate={userCreateHandler}
                     />
                 }
 
