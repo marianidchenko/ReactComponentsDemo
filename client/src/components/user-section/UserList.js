@@ -61,6 +61,7 @@ export const UserList = () => {
         userService.create(userData)
             .then(user => {
                 closeHandler();
+                setUsers(state => [...state, user])
             });
     }
 
