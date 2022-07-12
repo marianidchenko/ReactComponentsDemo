@@ -90,9 +90,10 @@ export const UserList = () => {
         console.log(userData)
 
         userService.update(userData, id)
-            .then(() => {
+            .then((user) => {
                 closeHandler();
                 
+                setUsers(state => [...state.filter(user => user._id != id), user])
             });
     }
 
