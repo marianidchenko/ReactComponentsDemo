@@ -87,7 +87,6 @@ export const UserList = () => {
         };
 
         const id = userAction.user._id;
-        console.log(userData)
 
         userService.update(userData, id)
             .then((user) => {
