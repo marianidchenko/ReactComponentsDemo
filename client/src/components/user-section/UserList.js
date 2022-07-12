@@ -1,11 +1,12 @@
 import { useState } from "react";
 import * as userService from "../../services/userService";
 
-import {UserListConstants} from "./UserListConstants";
+import { UserListConstants } from "./UserListConstants";
 
 import { UserDetails } from "./user-details/UserDetails";
 import { UserEdit } from "./user-edit/UserEdit";
 import { UserRow } from "./UserRow";
+import { UserDelete } from "./user-delete/UserDelete";
 
 export const UserList = ({ users }) => {
     const [userAction, setUserAction] = useState(({ user: null, action: null }));
@@ -44,7 +45,13 @@ export const UserList = ({ users }) => {
             {userAction.action == UserListConstants.Edit &&
                 <UserEdit
                     user={userAction.user}
-                    onEdit={userActionClickHandler}
+                    onClose={closeHandler}
+                />
+            }
+
+            {userAction.action == UserListConstants.Delete &&
+                <UserDelete
+                    user={userAction.user}
                     onClose={closeHandler}
                 />
             }

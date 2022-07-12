@@ -1,6 +1,5 @@
 export const UserEdit = ({
     user,
-    onEdit,
     onClose,
 }) => {
     return (
