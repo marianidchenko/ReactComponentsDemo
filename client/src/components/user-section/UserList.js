@@ -1,30 +1,53 @@
 import { useState } from "react";
 import * as userService from "../../services/userService";
 
-import { UserDetails } from "./UserDetails";
+import {UserListConstants} from "./UserListConstants";
+
+import { UserDetails } from "./user-details/UserDetails";
+import { UserEdit } from "./user-edit/UserEdit";
 import { UserRow } from "./UserRow";
 
 export const UserList = ({ users }) => {
-    const [selectedUser, setSelectedUser] = useState((null));
+    const [userAction, setUserAction] = useState(({ user: null, action: null }));
 
-    const [userAction, setUserAction] = useState((null));
 
-    const detailsClickHandler = (id) => {
+    const userActionClickHandler = (id, actionType) => {
         userService.getUserById(id)
-        .then(user => {
-            setSelectedUser(user);
-        })
-    };
+            .then(user => {
+                setUserAction({
+                    user,
+                    action: actionType
+                });
+            });
+    }
 
-    const detailsCloseHandler = () => {
-        setSelectedUser(null);
+
+    const closeHandler = () => {
+        setUserAction({
+            user: null,
+            action: null
+        });
     }
 
     return (
         <div className="table-wrapper">
 
             {/*  Overlap components   */}
-            {selectedUser && <UserDetails user={selectedUser} onClose={detailsCloseHandler}/>}
+
+            {userAction.action == UserListConstants.Details &&
+                <UserDetails
+                    user={userAction.user}
+                    onClose={closeHandler}
+                />
+            }
+
+            {userAction.action == UserListConstants.Edit &&
+                <UserEdit
+                    user={userAction.user}
+                    onEdit={userActionClickHandler}
+                    onClose={closeHandler}
+                />
+            }
 
             <table className="table">
                 <thead>
@@ -86,7 +109,10 @@ export const UserList = ({ users }) => {
 
                     {users.map((user) => (
                         <tr key={user._id}>
-                            <UserRow user={user} onDetailsClick={detailsClickHandler}/>
+                            <UserRow
+                                user={user}
+                                onClick={userActionClickHandler}
+                            />
                         </tr>
                     ))}
 
