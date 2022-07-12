@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import * as userService from "../../services/userService";
 
 import { UserListConstants } from "./UserListConstants";
@@ -9,9 +9,14 @@ import { UserRow } from "./UserRow";
 import { UserDelete } from "./user-delete/UserDelete";
 import { UserCreate } from "./user-create/UserCreate";
 
-export const UserList = ({ users }) => {
+export const UserList = () => {
+    const [users, setUsers] = useState([]);
     const [userAction, setUserAction] = useState(({ user: null, action: null }));
 
+    useEffect(() => {
+        userService.getAll()
+        .then(users => setUsers(users));
+      }, []);
 
     const userActionClickHandler = (id, actionType) => {
         userService.getUserById(id)

@@ -11,12 +11,6 @@ import { UserList } from './components/user-section/UserList';
 
 
 function App() {
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    userService.getAll()
-    .then(users => setUsers(users));
-  }, []);
 
   return (
     <div className="App">
@@ -26,7 +20,7 @@ function App() {
         <section className="card users-container">
 
           <Search />
-          <UserList users={users} />
+          <UserList />
 
         </section>
       </main>
