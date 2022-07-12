@@ -28,7 +28,6 @@ export const UserList = () => {
             });
     }
 
-
     const closeHandler = () => {
         setUserAction({
             user: null,
@@ -65,6 +64,37 @@ export const UserList = () => {
             });
     }
 
+    const userEditHandler = (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+        const {
+            firstName,
+            lastName,
+            email,
+            imageUrl,
+            phoneNumber,
+            ...address
+        } = Object.fromEntries(formData);
+
+        const userData = {
+            firstName,
+            lastName,
+            email,
+            imageUrl,
+            phoneNumber,
+            address,
+        };
+
+        const id = userAction.user._id;
+        console.log(userData)
+
+        userService.update(userData, id)
+            .then(() => {
+                closeHandler();
+                
+            });
+    }
 
     return (
         <Fragment>
@@ -83,6 +113,7 @@ export const UserList = () => {
                     <UserEdit
                         user={userAction.user}
                         onClose={closeHandler}
+                        onEdit={userEditHandler}
                     />
                 }
 
