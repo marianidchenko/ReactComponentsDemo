@@ -21,12 +21,12 @@ export const UserList = () => {
     const userActionClickHandler = (id, actionType) => {
         if (id !== null) {
             userService.getUserById(id)
-            .then(user => {
-                setUserAction({
-                    user,
-                    action: actionType
+                .then(user => {
+                    setUserAction({
+                        user,
+                        action: actionType
+                    });
                 });
-            });
         }
         else {
             setUserAction({
@@ -78,17 +78,15 @@ export const UserList = () => {
         userService.update(userData, id)
             .then((user) => {
                 closeHandler();
-
                 setUsers(state => [...state.filter(user => user._id != id), user])
             });
     }
 
     const userDeleteHandler = (id) => {
         userService.remove(id)
-            .then(user => {
-                closeHandler();
-                setUsers(state => [...state.filter(user => user._id != id)])
-            });
+        closeHandler();
+        setUsers(state => [...state.filter(user => user._id != id)])
+
     }
 
     return (

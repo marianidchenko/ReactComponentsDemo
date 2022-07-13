@@ -47,7 +47,11 @@ export const update = async (userData, id) => {
 }
 
 export const remove = async (id) => {
-    await fetch(`${baseUrl}/${id}`, {
+    const response = await fetch(`${baseUrl}/${id}`, {
         method: 'DELETE',
     });
+
+    const result = await response.json();
+
+    return result;
 }
