@@ -4,6 +4,7 @@ export const UserCreate = ({
     onClose,
     onUserCreate,
 }) => {
+    const [errors, setErrors] = useState({});
     const [values, setValues] = useState({
         firstName: '',
         lastName: '',
@@ -11,7 +12,7 @@ export const UserCreate = ({
         phoneNumber: '',
         imageUrl: '',
         country: '',
-        city: '', 
+        city: '',
         street: '',
         streetNumber: '',
     })
@@ -26,10 +27,98 @@ export const UserCreate = ({
     const submitHandler = (e) => {
         e.preventDefault();
 
-        const {country, city, street, streetNumber, ...userData} = values;
+        const { country, city, street, streetNumber, ...userData } = values;
         userData.address = { country, city, street, streetNumber };
         onUserCreate(userData);
     }
+
+    const minLengthValidator = (e, min) => {
+        if (values[e.target.name].length < min) {
+            setErrors(state => ({
+                ...state,
+                [e.target.name]: true
+            }))
+        }
+        else {
+            setErrors(state => ({
+                ...state,
+                [e.target.name]: false
+            }))
+        }
+    }
+
+    const emailValidator = (e) => {
+        if (!String(values[e.target.name])
+            .toLowerCase()
+            .match(
+                /^[A-Za-z0-9+_.-]+@(.+)$/
+            )) {
+            setErrors(state => ({
+                ...state,
+                [e.target.name]: true
+            }))
+        }
+        else {
+            setErrors(state => ({
+                ...state,
+                [e.target.name]: false
+            }))
+        }
+    }
+
+    const urlValidator = (e) => {
+        if (!String(values[e.target.name])
+            .toLowerCase()
+            .match(
+                /^(http(s)?:\/\/)[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
+            )) {
+            setErrors(state => ({
+                ...state,
+                [e.target.name]: true
+            }))
+        }
+        else {
+            setErrors(state => ({
+                ...state,
+                [e.target.name]: false
+            }))
+        }
+    }
+
+    const phoneNumberValidator = (e) => {
+        if (!String(values[e.target.name])
+            .toLowerCase()
+            .match(
+                /^088[0-9]{7}$/
+            )) {
+            setErrors(state => ({
+                ...state,
+                [e.target.name]: true
+            }))
+        }
+        else {
+            setErrors(state => ({
+                ...state,
+                [e.target.name]: false
+            }))
+        }
+    }
+
+    const positiveNumberValidator = (e) => {
+        if (Number(values[e.target.name]) <= 0) {
+            setErrors(state => ({
+                ...state,
+                [e.target.name]: true
+            }))
+        }
+        else {
+            setErrors(state => ({
+                ...state,
+                [e.target.name]: false
+            }))
+        }
+    }
+
 
     return (
         <div className="overlay">
@@ -53,21 +142,25 @@ export const UserCreate = ({
                                 <label htmlFor="firstName">First name</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-user"></i></span>
-                                    <input id="firstName" name="firstName" type="text" value={values.firstName} onChange={changeHandler}/>
+                                    <input id="firstName" name="firstName" type="text" value={values.firstName} onChange={changeHandler} onBlur={(e) => minLengthValidator(e, 3)} />
                                 </div>
-                                <p className="form-error">
-                                    First name should be at least 3 characters long!
-                                </p>
+                                {errors.firstName &&
+                                    <p className="form-error">
+                                        First name should be at least 3 characters long!
+                                    </p>
+                                }
                             </div>
                             <div className="form-group">
                                 <label htmlFor="lastName">Last name</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-user"></i></span>
-                                    <input id="lastName" name="lastName" type="text" value={values.lastName} onChange={changeHandler}/>
+                                    <input id="lastName" name="lastName" type="text" value={values.lastName} onChange={changeHandler} onBlur={(e) => minLengthValidator(e, 3)} />
                                 </div>
-                                <p className="form-error">
-                                    Last name should be at least 3 characters long!
-                                </p>
+                                {errors.lastName &&
+                                    <p className="form-error">
+                                        Last name should be at least 3 characters long!
+                                    </p>
+                                }
                             </div>
                         </div>
 
@@ -76,17 +169,21 @@ export const UserCreate = ({
                                 <label htmlFor="email">Email</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-envelope"></i></span>
-                                    <input id="email" name="email" type="text" value={values.email} onChange={changeHandler}/>
+                                    <input id="email" name="email" type="text" value={values.email} onChange={changeHandler} onBlur={(e) => emailValidator(e)} />
                                 </div>
-                                <p className="form-error">Email is not valid!</p>
+                                {errors.email &&
+                                    <p className="form-error">Email is not valid!</p>
+                                }
                             </div>
                             <div className="form-group">
                                 <label htmlFor="phoneNumber">Phone number</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-phone"></i></span>
-                                    <input id="phoneNumber" name="phoneNumber" type="text" value={values.phoneNumber} onChange={changeHandler}/>
+                                    <input id="phoneNumber" name="phoneNumber" type="text" value={values.phoneNumber} onChange={changeHandler} onBlur={(e) => phoneNumberValidator(e)} />
                                 </div>
-                                <p className="form-error">Phone number is not valid!</p>
+                                {errors.phoneNumber &&
+                                    <p className="form-error">Phone number is not valid!</p>
+                                }
                             </div>
                         </div>
 
@@ -94,9 +191,11 @@ export const UserCreate = ({
                             <label htmlFor="imageUrl">Image Url</label>
                             <div className="input-wrapper">
                                 <span><i className="fa-solid fa-image"></i></span>
-                                <input id="imageUrl" name="imageUrl" type="text" value={values.imageUrl} onChange={changeHandler}/>
+                                <input id="imageUrl" name="imageUrl" type="text" value={values.imageUrl} onChange={changeHandler} onBlur={(e) => urlValidator(e)} />
                             </div>
-                            <p className="form-error">ImageUrl is not valid!</p>
+                            {errors.imageUrl &&
+                                <p className="form-error">ImageUrl is not valid!</p>
+                            }
                         </div>
 
                         <div className="form-row">
@@ -104,21 +203,25 @@ export const UserCreate = ({
                                 <label htmlFor="country">Country</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-map"></i></span>
-                                    <input id="country" name="country" type="text" value={values.country} onChange={changeHandler}/>
+                                    <input id="country" name="country" type="text" value={values.country} onChange={changeHandler} onBlur={(e) => minLengthValidator(e, 2)} />
                                 </div>
-                                <p className="form-error">
-                                    Country should be at least 2 characters long!
-                                </p>
+                                {errors.country &&
+                                    <p className="form-error">
+                                        Country should be at least 2 characters long!
+                                    </p>
+                                }
                             </div>
                             <div className="form-group">
                                 <label htmlFor="city">City</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-city"></i></span>
-                                    <input id="city" name="city" type="text" value={values.city} onChange={changeHandler}/>
+                                    <input id="city" name="city" type="text" value={values.city} onChange={changeHandler} onBlur={(e) => minLengthValidator(e, 3)} />
                                 </div>
-                                <p className="form-error">
-                                    City should be at least 3 characters long!
-                                </p>
+                                {errors.city &&
+                                    <p className="form-error">
+                                        City should be at least 3 characters long!
+                                    </p>
+                                }
                             </div>
                         </div>
 
@@ -127,21 +230,25 @@ export const UserCreate = ({
                                 <label htmlFor="street">Street</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-map"></i></span>
-                                    <input id="street" name="street" type="text" value={values.street} onChange={changeHandler}/>
+                                    <input id="street" name="street" type="text" value={values.street} onChange={changeHandler} onBlur={(e) => minLengthValidator(e, 3)} />
                                 </div>
-                                <p className="form-error">
-                                    Street should be at least 3 characters long!
-                                </p>
+                                {errors.street &&
+                                    <p className="form-error">
+                                        Street should be at least 3 characters long!
+                                    </p>
+                                }
                             </div>
                             <div className="form-group">
                                 <label htmlFor="streetNumber">Street number</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-house-chimney"></i></span>
-                                    <input id="streetNumber" name="streetNumber" type="text" value={values.streetNumber} onChange={changeHandler}/>
+                                    <input id="streetNumber" name="streetNumber" type="text" value={values.streetNumber} onChange={changeHandler} onBlur={(e) => positiveNumberValidator(e)} />
                                 </div>
-                                <p className="form-error">
-                                    Street number should be a positive number!
-                                </p>
+                                {errors.streetNumber &&
+                                    <p className="form-error">
+                                        Street number should be a positive number!
+                                    </p>
+                                }
                             </div>
                         </div>
                         <div id="form-actions">
