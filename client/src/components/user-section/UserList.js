@@ -15,8 +15,8 @@ export const UserList = () => {
 
     useEffect(() => {
         userService.getAll()
-        .then(users => setUsers(users));
-      }, []);
+            .then(users => setUsers(users));
+    }, []);
 
     const userActionClickHandler = (id, actionType) => {
         userService.getUserById(id)
@@ -35,27 +35,7 @@ export const UserList = () => {
         });
     }
 
-    const userCreateHandler = (e) => {
-        e.preventDefault();
-
-        const formData = new FormData(e.target);
-        const {
-            firstName,
-            lastName,
-            email,
-            imageUrl,
-            phoneNumber,
-            ...address
-        } = Object.fromEntries(formData);
-
-        const userData = {
-            firstName,
-            lastName,
-            email,
-            imageUrl,
-            phoneNumber,
-            address,
-        };
+    const userCreateHandler = (userData) => {
 
         userService.create(userData)
             .then(user => {
@@ -91,7 +71,7 @@ export const UserList = () => {
         userService.update(userData, id)
             .then((user) => {
                 closeHandler();
-                
+
                 setUsers(state => [...state.filter(user => user._id != id), user])
             });
     }
