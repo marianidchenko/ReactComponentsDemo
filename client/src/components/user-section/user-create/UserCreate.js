@@ -33,90 +33,44 @@ export const UserCreate = ({
     }
 
     const minLengthValidator = (e, min) => {
-        if (values[e.target.name].length < min) {
-            setErrors(state => ({
-                ...state,
-                [e.target.name]: true
-            }))
-        }
-        else {
-            setErrors(state => ({
-                ...state,
-                [e.target.name]: false
-            }))
-        }
+        setErrors(state => ({
+            ...state,
+            [e.target.name]: values[e.target.name].length < min,
+        }));
     }
 
     const emailValidator = (e) => {
-        if (!String(values[e.target.name])
-            .toLowerCase()
-            .match(
-                /^[A-Za-z0-9+_.-]+@(.+)$/
-            )) {
-            setErrors(state => ({
-                ...state,
-                [e.target.name]: true
-            }))
-        }
-        else {
-            setErrors(state => ({
-                ...state,
-                [e.target.name]: false
-            }))
-        }
+        const email = String(values[e.target.name]);
+        const pattern = /^[A-Za-z0-9+_.-]+@(.+)$/;
+        setErrors(state => ({
+            ...state,
+            [e.target.name]: !email.match(pattern)
+        }))
     }
 
     const urlValidator = (e) => {
-        if (!String(values[e.target.name])
-            .toLowerCase()
-            .match(
-                /^(http(s)?:\/\/)[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
-            )) {
-            setErrors(state => ({
-                ...state,
-                [e.target.name]: true
-            }))
-        }
-        else {
-            setErrors(state => ({
-                ...state,
-                [e.target.name]: false
-            }))
-        }
+        const url = String(values[e.target.name]).toLowerCase();
+        const pattern = /^(http(s)?:\/\/)[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
+        setErrors(state => ({
+            ...state,
+            [e.target.name]: !url.match(pattern)
+        }))
     }
 
     const phoneNumberValidator = (e) => {
-        if (!String(values[e.target.name])
-            .toLowerCase()
-            .match(
-                /^088[0-9]{7}$/
-            )) {
-            setErrors(state => ({
-                ...state,
-                [e.target.name]: true
-            }))
-        }
-        else {
-            setErrors(state => ({
-                ...state,
-                [e.target.name]: false
-            }))
-        }
+        const phoneNumber = String(values[e.target.name]).toLowerCase();
+        const pattern = /088[0-9]{7}/
+        setErrors(state => ({
+            ...state,
+            [e.target.name]: !phoneNumber.match(pattern)
+        }))
     }
 
     const positiveNumberValidator = (e) => {
-        if (Number(values[e.target.name]) <= 0) {
-            setErrors(state => ({
-                ...state,
-                [e.target.name]: true
-            }))
-        }
-        else {
-            setErrors(state => ({
-                ...state,
-                [e.target.name]: false
-            }))
-        }
+        setErrors(state => ({
+            ...state,
+            [e.target.name]: Number(e.target.value) < 0,
+        }));
     }
 
 
