@@ -69,9 +69,11 @@ export const UserCreate = ({
     const positiveNumberValidator = (e) => {
         setErrors(state => ({
             ...state,
-            [e.target.name]: Number(e.target.value) < 0,
+            [e.target.name]: Number(e.target.value) < 0 || Number(e.target.value) == '',
         }));
     }
+
+    const isFormValid = !Object.values(errors).some(x => x);
 
 
     return (
@@ -206,7 +208,7 @@ export const UserCreate = ({
                             </div>
                         </div>
                         <div id="form-actions">
-                            <button id="action-save" className="btn" type="submit">Save</button>
+                            <button id="action-save" className="btn" type="submit" disabled={!isFormValid}>Save</button>
                             <button id="action-cancel" className="btn" type="button" onClick={onClose}>
                                 Cancel
                             </button>
