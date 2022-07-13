@@ -27,9 +27,13 @@ export const create = async (userData) => {
         },
         body: JSON.stringify(userData)
     });
-    const result = await response.json();
-
-    return result.user;
+    if (response.ok) {
+        const result = await response.json();
+        return result.user;
+    }
+    else {
+        throw {message: 'Can not create user'}
+    }
 }
 
 export const update = async (userData, id) => {
@@ -40,9 +44,7 @@ export const update = async (userData, id) => {
         },
         body: JSON.stringify(userData)
     });
-
     const result = await response.json();
-
     return result.user;
 }
 
