@@ -28,7 +28,6 @@ export const UserCreate = ({
 
         const {country, city, street, streetNumber, ...userData} = values;
         userData.address = { country, city, street, streetNumber };
-
         onUserCreate(userData);
     }
 

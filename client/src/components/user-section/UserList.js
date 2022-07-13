@@ -19,13 +19,21 @@ export const UserList = () => {
     }, []);
 
     const userActionClickHandler = (id, actionType) => {
-        userService.getUserById(id)
+        if (id !== null) {
+            userService.getUserById(id)
             .then(user => {
                 setUserAction({
                     user,
                     action: actionType
                 });
             });
+        }
+        else {
+            setUserAction({
+                user: null,
+                action: actionType
+            });
+        }
     }
 
     const closeHandler = () => {
@@ -36,7 +44,6 @@ export const UserList = () => {
     }
 
     const userCreateHandler = (userData) => {
-
         userService.create(userData)
             .then(user => {
                 closeHandler();
@@ -76,6 +83,14 @@ export const UserList = () => {
             });
     }
 
+    const userDeleteHandler = (id) => {
+        userService.remove(id)
+            .then(user => {
+                closeHandler();
+                setUsers(state => [...state.filter(user => user._id != id)])
+            });
+    }
+
     return (
         <Fragment>
             <div className="table-wrapper">
@@ -101,6 +116,7 @@ export const UserList = () => {
                     <UserDelete
                         user={userAction.user}
                         onClose={closeHandler}
+                        onDelete={userDeleteHandler}
                     />
                 }
 

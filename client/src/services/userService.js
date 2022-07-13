@@ -27,14 +27,13 @@ export const create = async (userData) => {
         },
         body: JSON.stringify(userData)
     });
-
     const result = await response.json();
 
     return result.user;
 }
 
 export const update = async (userData, id) => {
-    const response = await fetch(`${baseUrl}/${id}`,{
+    const response = await fetch(`${baseUrl}/${id}`, {
         method: 'PUT',
         headers: {
             'content-type': 'application/json',
@@ -45,4 +44,10 @@ export const update = async (userData, id) => {
     const result = await response.json();
 
     return result.user;
+}
+
+export const remove = async (id) => {
+    await fetch(`${baseUrl}/${id}`, {
+        method: 'DELETE',
+    });
 }
